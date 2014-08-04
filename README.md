@@ -1,6 +1,5 @@
 News360 Promoted Content SDK (iOS)
 ===========
-## Contents
 ## Introduction
 Using News360 Promoted Content SDK allows you to display personalized, promoted stories within your app.
 ### Supported architectures
