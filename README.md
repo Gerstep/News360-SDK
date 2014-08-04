@@ -359,11 +359,26 @@ The following method is used in case of any data transfer error:
 It has no default action but it could be redefined for custom error handling (hiding controller, notification
 etc.)
 
-Tracking user content
+## Tracking user content
+
 In order to enable personalization you should call trackRead: from NWSPromoContent every time a user opens an article within your app. Don't call trackRead: when a user opens promo content.
+```objective-c
 - (void)trackRead:(NWSContentEvent *)event;
-NWSContentEvent has the following structure:
+```
+
+`NWSContentEvent` has the following structure:
+
+```objective-c
 @interface NWSContentEvent : NSObject
 @property (nonatomic, strong) NSString *title;
-All NWSContentEvent class fields are optional.
+@property (nonatomic, strong) NSString *subtitle;
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSString *categoryName;
+@property (nonatomic, strong) NSString *sourceName;
+@property (nonatomic, strong) NSString *authorName;
+@end
+```
+
+All `NWSContentEvent` class fields are optional.
 
