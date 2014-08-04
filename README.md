@@ -361,7 +361,8 @@ etc.)
 
 ## Tracking user content
 
-In order to enable personalization you should call trackRead: from NWSPromoContent every time a user opens an article within your app. Don't call trackRead: when a user opens promo content.
+In order to enable personalization you should call `trackRead:` from `NWSPromoContent` every time a user opens an article within your app. Don't call `trackRead:` when a user opens promo content.
+
 ```objective-c
 - (void)trackRead:(NWSContentEvent *)event;
 ```
