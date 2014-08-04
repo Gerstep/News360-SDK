@@ -108,7 +108,7 @@ There are 3 base classes for displaying an article headline:
 * ```NWSHeadlineCollectionCell : UICollectionViewCell```
 
 For testing purposes all these classes have default views:
-![aa](http://imgur.com/8xz6MOT "Headline View")
+![Headline View](http://imgur.com/8xz6MOT)
 [2]: http://imgur.com/qGYhPAr
 
 NWSPromoContent view can be created using the following method:
@@ -289,4 +289,3 @@ NWSContentEvent has the following structure:
 @property (nonatomic, strong) NSString *title;
 All NWSContentEvent class fields are optional.
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
