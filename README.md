@@ -262,19 +262,16 @@ NWSContentViewController *contentController = [[NWSContentViewController alloc] 
 
 1. WebView links open by default in Safari. To change this setting, you can create a subclass of
 `NWSContentViewController` and define the method without calling `super`:
-
-```objective-c
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
-navigationType:(UIWebViewNavigationType)navigationType
-```
+	```objective-c
+	- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+	navigationType:(UIWebViewNavigationType)navigationType
+	```
 
 2. If you reload
-
-```objective-c
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-```
-
-Call `super`
+	```objective-c
+	- (void)webViewDidFinishLoad:(UIWebView *)webView
+	```
+	Call `super`
 
 ### Customizing article style
 To modify an article’s style, you can reload it using the NWSContentViewController method:
