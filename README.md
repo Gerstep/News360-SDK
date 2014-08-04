@@ -190,23 +190,23 @@ Use this integration method if you are using view collections (UITableView or UI
 ### Tap Recognition in NWSHeadlineView
 
 Add UITapGestureRecognizer to manage the tap gesture in NWSHeadlineView
-	```objective-c
-	- (void)addPromoViewWithFrame: (CGRect)frame
-	{
-	     NWSHeadlineView *promoView = [NWSPromoContent sharedContent] view];
-	     promoView.frame = frame
-	     [[NWSPromoContent sharedContent] bind:promoView key:key];
-	     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidTap:)];
-	      [promoView addGestureRecognizer:tapRecognizer];
-	     [self.container addSubview:promoView];
-	}
+```objective-c
+- (void)addPromoViewWithFrame: (CGRect)frame
+{
+  NWSHeadlineView *promoView = [NWSPromoContent sharedContent] view];
+	promoView.frame = frame
+	[[NWSPromoContent sharedContent] bind:promoView key:key];
+	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidTap:)];
+	[promoView addGestureRecognizer:tapRecognizer];
+	[self.container addSubview:promoView];
+}
 	
-	- (void)viewDidTap:(UITapGestureRecognizer *)gesture
-	{
-	     NWSHeadlineView* view = (NWSHeadlineView *)gesture.view;
-	     // work with the view
-	}
-	```
+- (void)viewDidTap:(UITapGestureRecognizer *)gesture
+{
+	NWSHeadlineView* view = (NWSHeadlineView *)gesture.view;
+	// work with the view
+}
+```
 
 ### Customizing headlines
 
