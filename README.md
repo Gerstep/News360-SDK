@@ -48,6 +48,7 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 In order to run SDK in production mode you will need to enable it on both the client’s and server’s sides. See below for details.
 3. You can set personalized parameters to achieve better targeting of promoted content. Once set
 these parameters will affect all promoted future content requests.
+
 	```objective-c
 		[[NWSPromoContent sharedContent] setCategory:@"<category>"];
 		[[NWSPromoContent sharedContent] setKeywords:[NSArray arrayWithObjects:@"<keyword1>", @"<keyword2>", nil]];
@@ -55,23 +56,42 @@ these parameters will affect all promoted future content requests.
 		[[NWSPromoContent sharedContent] setGender:NWSGenderMale];
 		[[NWSPromoContent sharedContent] setAge:26];
 	```
+	
 4. You can also set up image preloading:
+
 	```objective-c
 		[[NWSPromoContent sharedContent] setPreloadImages:YES];
 	```
+	
 	By default, it is enabled, so images will load before completion callback. The image will therefore always load before binding.
 	If it is disabled, the image may finish loading after binding so users may see an empty space until the image is loaded.
 5. You can use either of the following two methods to display date and time:
+
 	```objective-c
 	[[NWSPromoContent sharedContent] useRelativeDate:YES];
 	```
+	
 	Displaying date and time in relative format (e.g. "1 hour ago"). If relative date is disabled, time is
 	shown using the custom date format:
+	
 	```objective-c
 	[[NWSPromoContent sharedContent] setDateFormat:@"<your_date_format>"];
 	```
+	
 	By default date and time are displayed in MediumDate-ShortTime format (e.g. "Feb 21, 2014,
 	12:00 AM")
+
+### Start Session
+A new session must be started when the app is activated (is launched or becomes active after other actions):
+
+```objective-c
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[NWSPromoContent sharedContent] startSessionWithCompletion:^(BOOL isTestMode, NSError *error) {
+        //handle session start
+    }];
+}
+```
 
 ## Integrating SDK
 
