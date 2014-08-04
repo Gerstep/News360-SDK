@@ -211,6 +211,7 @@ Add UITapGestureRecognizer to manage the tap gesture in NWSHeadlineView
 ###Customizing headlines
 
 You have two options for customizing promoted content headlines:
+
 1. Without inheriting
 	If you don't need to modify functionality of a class and just want change the view, you can
 	create a custom Xib:
@@ -225,13 +226,14 @@ You have two options for customizing promoted content headlines:
 	And create you own Xib:
 		
 
-Be sure to have IBOutlets connected to the respective view elements when creating custom Xib. All base classes have a preset list of IBOutlets:
-	```objective-c
-	@property (nonatomic, strong) IBOutlet NWSImageView *image;
-	@property (nonatomic, strong) IBOutlet UILabel *title;
-	@property (nonatomic, strong) IBOutlet UILabel *text;
-	@property (nonatomic, strong) IBOutlet UILabel *date;
-	```
+Be sure to have `IBOutlets` connected to the respective view elements when creating custom Xib. All base classes have a preset list of IBOutlets:
+
+```objective-c
+@property (nonatomic, strong) IBOutlet NWSImageView *image;
+@property (nonatomic, strong) IBOutlet UILabel *title;
+@property (nonatomic, strong) IBOutlet UILabel *text;
+@property (nonatomic, strong) IBOutlet UILabel *date;
+```
 
 ### NWSImageView
 
@@ -286,3 +288,5 @@ NWSContentEvent has the following structure:
 @interface NWSContentEvent : NSObject
 @property (nonatomic, strong) NSString *title;
 All NWSContentEvent class fields are optional.
+
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
