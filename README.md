@@ -31,7 +31,7 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 
 ## Usage
 ### Set up NWSPromoContent
-1. After starting the app you need to pass ZoneId to the SDK:
+1. After starting the app you need to pass ```ZoneId``` to the SDK:
 
 	```objective-c
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -92,6 +92,24 @@ A new session must be started when the app is activated (is launched or becomes 
     }];
 }
 ```
+
+```isTestMode``` defines the SDK mode on the server, which depends on the web interface and
+`zoneId` settings.
+
+After successfully starting a session, you can access a number of promoted articles available for display:
+```objective-c
+[NWSPromoContent sharedContent].headlineCount
+```
+### Display article headline
+
+There are 3 base classes for displaying an article headline:
+* ```NWSHeadlineView : UIView```
+* ```NWSHeadlineTableCell : UITableViewCell```
+* ```NWSHeadlineCollectionCell : UICollectionViewCell```
+
+For testing purposes all these classes have default views:
+![Headline View](http://imgur.com/8xz6MOT)
+![Headline View](http://imgur.com/qGYhPAr)
 
 ## Integrating SDK
 
