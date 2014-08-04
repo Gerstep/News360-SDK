@@ -108,8 +108,10 @@ There are 3 base classes for displaying an article headline:
 * ```NWSHeadlineCollectionCell : UICollectionViewCell```
 
 For testing purposes all these classes have default views:
+
 ![Headline View](http://i.imgur.com/qGYhPAr.png)
-[2]: http://imgur.com/qGYhPAr
+
+![Headline View](http://i.imgur.com/8xz6MOT.png)
 
 NWSPromoContent view can be created using the following method:
 	```objective-c
@@ -213,6 +215,8 @@ You have two options for customizing promoted content headlines:
 	If you don't need to modify functionality of a class and just want change the view, you can
 	create a custom Xib:
 	
+	![Customizing](http://i.imgur.com/pg65vWl.png)
+	
 2. With inheriting
 	If you need to add some functionality, like an additional label, you should inherit from a base class:
 	```objective-c
@@ -221,7 +225,8 @@ You have two options for customizing promoted content headlines:
 	@end
 	```
 	And create you own Xib:
-		
+	
+	![Headline View](http://i.imgur.com/ATRxIfF.png)
 
 Be sure to have `IBOutlets` connected to the respective view elements when creating custom Xib. All base classes have a preset list of IBOutlets:
 
@@ -277,7 +282,8 @@ To modify an article’s style, you can reload it using the `NWSContentViewContr
 ```
 The return string **should not** be wrapped into `<style></style>`. This happens automatically while HTML is being generated.
 Example:
-PIIIIIC
+
+![Default Layout](http://i.imgur.com/n5JHdFa.png)
 
 Article content has an `article` class
 Each tag (Internet, Travel, Airlines, for example) has a tag class, and the tag container has tag class.
