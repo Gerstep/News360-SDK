@@ -217,22 +217,22 @@ You have two options for customizing promoted content headlines:
 	
 	2. With inheriting
 		If you need to add some functionality, like an additional label, you should inherit from a base class:
-			```objective-c
-			@interface MyHeadlineView : NWSHeadlineView
-			@property (nonatomic, strong) IBOutlet UILabel *myLabel;
-			@end
-			```
+		```objective-c
+		@interface MyHeadlineView : NWSHeadlineView
+		@property (nonatomic, strong) IBOutlet UILabel *myLabel;
+		@end
+		```
 		
 		And create you own Xib:
 		
 
 Be sure to have IBOutlets connected to the respective view elements when creating custom Xib. All base classes have a preset list of IBOutlets:
-	```objective-c
-	@property (nonatomic, strong) IBOutlet NWSImageView *image;
-	@property (nonatomic, strong) IBOutlet UILabel *title;
-	@property (nonatomic, strong) IBOutlet UILabel *text;
-	@property (nonatomic, strong) IBOutlet UILabel *date;
-	```
+```objective-c
+@property (nonatomic, strong) IBOutlet NWSImageView *image;
+@property (nonatomic, strong) IBOutlet UILabel *title;
+@property (nonatomic, strong) IBOutlet UILabel *text;
+@property (nonatomic, strong) IBOutlet UILabel *date;
+```
 
 ### NWSImageView
 
