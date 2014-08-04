@@ -108,7 +108,7 @@ There are 3 base classes for displaying an article headline:
 * ```NWSHeadlineCollectionCell : UICollectionViewCell```
 
 For testing purposes all these classes have default views:
-[1]: http://imgur.com/8xz6MOT
+![aa](http://imgur.com/8xz6MOT "Headline View")
 [2]: http://imgur.com/qGYhPAr
 
 NWSPromoContent view can be created using the following method:
@@ -151,9 +151,13 @@ Use this integration method if you are using view collections (UITableView or UI
 	```objective-c
 	- (void)loadWithMaxCount:(NSUInteger)maxCount imageSize:(NWSImageSize)imageSize completion:(NWSLoadCompletion)completion;
 	```
+	
 	`maxCount` - number of headlines
+	
 	`completion` - a block of ```objective-c ^(NSArray* keys, NSError* error) ```
+	
 	`keys` – an array containing promoted content IDs. The number of keys could be less than the maxCount
+	
 	Promoted content IDs (Key) – a unique key representing the promoted content object. The Key is used to link views with preloaded promoted content data. If you are using the same Key to bind views, you will always get the same data. Keys must be stored in your app using a strong reference.
 
 2. Once you have the key array, you will need to create test views:
@@ -168,6 +172,7 @@ Use this integration method if you are using view collections (UITableView or UI
 		[self.collectionView registerNib:[[NWSPromoContent sharedContent] collectionCellNib] forCellWithReuseI
 		dentifier:@"PromoCollectionCell"];
 		```
+		
 	You need to use the same identifier argument when
 	calling `dequeueReusableCellWithIdentifier:forIndexPath:` from `UITableView` and `UICollectionView`.
 
@@ -177,12 +182,108 @@ Use this integration method if you are using view collections (UITableView or UI
 	[[NWSPromoContent sharedContent] bind:tableCell key:key];
 	[[NWSPromoContent sharedContent] bind:collectionCell key:key];
 	```
+	
 	After binding is complete the views are ready to be displayed.
 
-4. In order to customize UI you can inherit from classes (NWSHeadlineView, NWSHeadlineTableCell or NWSHeadlineCollectionCell) and/or create a custom Xib. To do this, you need to instantiate an object of your class (init, load from nib, etc.) and be sure to complete step 3. Please note that binding will only be successful if the view is an object of NWSHeadlineView, NWSHeadlineTableCell, NWSHeadlineCollectionCell or inherited classes.
+4. In order to customize UI you can inherit from classes (`NWSHeadlineView`, `NWSHeadlineTableCell` or `NWSHeadlineCollectionCell`) and/or create a custom Xib. To do this, you need to instantiate an object of your class (init, load from nib, etc.) and be sure to complete step 3. Please note, that binding will only be successful if the view is an object of `NWSHeadlineView`, `NWSHeadlineTableCell`, `NWSHeadlineCollectionCell` or inherited classes.
 
-## NWSImageView
+### Tap Recognition in NWSHeadlineView
 
-## Article
+Add UITapGestureRecognizer to manage the tap gesture in NWSHeadlineView
+	```objective-c
+	- (void)addPromoViewWithFrame: (CGRect)frame
+	{
+	     NWSHeadlineView *promoView = [NWSPromoContent sharedContent] view];
+	     promoView.frame = frame
+	     [[NWSPromoContent sharedContent] bind:promoView key:key];
+	     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidTap:)];
+	      [promoView addGestureRecognizer:tapRecognizer];
+	     [self.container addSubview:promoView];
+	}
+	
+	- (void)viewDidTap:(UITapGestureRecognizer *)gesture
+	{
+	     NWSHeadlineView* view = (NWSHeadlineView *)gesture.view;
+	     // work with the view
+	}
+	```
 
-## Tracking user content
+###Customizing headlines
+
+You have two options for customizing promoted content headlines:
+	1. Without inheriting
+		If you don't need to modify functionality of a class and just want change the view, you can
+	create a custom Xib:
+	
+	2. With inheriting
+		If you need to add some functionality, like an additional label, you should inherit from a base class:
+			```objective-c
+			@interface MyHeadlineView : NWSHeadlineView
+			@property (nonatomic, strong) IBOutlet UILabel *myLabel;
+			@end
+			```
+		
+		And create you own Xib:
+		
+
+Be sure to have IBOutlets connected to the respective view elements when creating custom Xib. All base classes have a preset list of IBOutlets:
+	```objective-c
+	@property (nonatomic, strong) IBOutlet NWSImageView *image;
+	@property (nonatomic, strong) IBOutlet UILabel *title;
+	@property (nonatomic, strong) IBOutlet UILabel *text;
+	@property (nonatomic, strong) IBOutlet UILabel *date;
+	```
+
+### NWSImageView
+
+
+In order to display headline images correctly use NWSImageView. You just need to add NWSImageView to your custom view and link it to the image IBOutlet. Image dimensions will depend on the imageSize argument, which can have one of the following values:
+1) NWSImageSizeSmall - for an image size of less than 200px
+2) NWSImageSizeMedium - for an image size of between 200px and 400px
+3) NWSImageSizeLarge - for an image size of more than 400px
+4) NWSImageSizeOriginal - for an original image
+Images will automatically rescale to fill NWSImageView.
+Article
+Display article
+You can open an article using the view’s Key property:
+NWSHeadlineTableCell *cell = (NWSHeadlineTableCell *)[tableView
+cellForRowAtIndexPath:indexPath];
+Managing WebView links
+1. WebView links open by default in Safari. To change this setting, you can create a subclass of
+NWSContentViewController and define the method without calling it super:
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+navigationType:(UIWebViewNavigationType)navigationType
+2. If you reload
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+Call super
+Customizing article style
+To modify an article’s style, you can reload it using the NWSContentViewController method:
+- (NSString *)style
+And return to the custom style.
+The return string should not be wrapped into <style></style>. This happens automatically while HTML is being generated.
+Example:
+Article content has an article class
+Each tag (Internet, Travel, Airlines, for example) has a tag class, and the tag container has tag class.
+The title has the title class.
+Publishing time has the timestamp class.
+Publisher logo has the source-logo class.
+Publisher name has the source-link class.
+Time, publisher logo and publisher name container has the source class.
+Each paragraph in the article has the text class.
+Default style:
+.article * {
+margin: 0;
+padding: 0;
+}
+Managing content errors
+The following method is used in case of any data transfer error:
+- (void)onContentError:(NSError *)error
+It has no default action but it could be redefined for custom error handling (hiding controller, notification
+etc.)
+Tracking user content
+In order to enable personalization you should call trackRead: from NWSPromoContent every time a user opens an article within your app. Don't call trackRead: when a user opens promo content.
+- (void)trackRead:(NWSContentEvent *)event;
+NWSContentEvent has the following structure:
+@interface NWSContentEvent : NSObject
+@property (nonatomic, strong) NSString *title;
+All NWSContentEvent class fields are optional.
