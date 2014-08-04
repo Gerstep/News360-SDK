@@ -18,6 +18,7 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 1. Add files to your project
   * News360PromoSDK.framework
   * News360PromoSDK.bundle
+  ![Installation](http://i.imgur.com/y0Feo5t.png)
 2. Make sure you have following standard frameworks added:
   * SystemConfiguration.framework
   * CFNetwork.framework
@@ -26,8 +27,11 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
   * UIKit.framework
   * Foundation.framework
 3. Link framework to your targets:
+	![Installation](http://i.imgur.com/Ak9m0oW.png)
 4. Provide Framework Search Path
+	![Installation](http://i.imgur.com/Bd5oTjr.png)
 5. Add "Other Linker Flags: -ObjC" in Build Settings:
+	![Installation](http://i.imgur.com/qjfDtwW.png)
 6. Import header file: 
   `#import <News360PromoSDK/News360PromoSDK.h>`
 
