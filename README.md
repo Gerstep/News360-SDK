@@ -16,7 +16,9 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 1. Add files to your project
   * News360PromoSDK.framework
   * News360PromoSDK.bundle
+
 Make sure you have following standard frameworks added:
+
   * SystemConfiguration.framework
   * CFNetwork.framework
   * AdSupport.framework
