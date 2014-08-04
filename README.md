@@ -58,9 +58,9 @@ these parameters will affect all promoted future content requests.
 ```
 
 4. You can also set up image preloading:
-	```objective-c
+```objective-c
 	[[NWSPromoContent sharedContent] setPreloadImages:YES];
-	```
+```
 
 ## Integrating SDK
 
