@@ -134,21 +134,22 @@ In order to use UITableView and UICollectionView you need to register the nib:
 ## Integrating SDK
 ### Simple View
 Use this method when you are not using view collections and you need to display a single view containing a promo article, such as a banner.
+
 1. Create test object of NWSHeadlineView class:
-```objective-c
+	```objective-c
 	NWSHeadlineView *promoView = [[NWSPromoContent sharedContent] view];
-```
+	```
 
 2. Fill in the view with content data:
-```objective-c
-[[NWSPromoContent sharedContent] bind:promoView imageSize:NWSImageSizeSmall completion:^(NWSHeadlineView *view, NSError *error) {
-	     if (!error) {
-	          \\add view to layout
-	     } else {
-	          \\handle error            
-	     }
-}];
-```
+	```objective-c
+	[[NWSPromoContent sharedContent] bind:promoView imageSize:NWSImageSizeSmall completion:^(NWSHeadlineView *view, NSError *error) {
+	if (!error) {
+	  \\add view to layout
+	} else {
+	  \\handle error            
+	}
+	}];
+	```
 	
 	If `error == nil`, it means that that view has already been filled with data and you just need to add it to the layout.
 	
@@ -164,7 +165,7 @@ Use this integration method if you are using view collections (UITableView or UI
 	
 	`maxCount` - number of headlines
 	
-	`completion` - a block of ```objective-c ^(NSArray* keys, NSError* error) ```
+	`completion` - a block of ``` ^(NSArray* keys, NSError* error) ```
 	
 	`keys` – an array containing promoted content IDs. The number of keys could be less than the maxCount
 	
