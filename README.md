@@ -121,15 +121,16 @@ For testing purposes all these classes have default views:
 ![Headline View](http://i.imgur.com/8xz6MOT.png)
 
 NWSPromoContent view can be created using the following method:
-	```objective-c
+```objective-c
 	[[NWSPromoContent sharedContent] view];
-	```
+```
 
 In order to use UITableView and UICollectionView you need to register the nib:
-	```objective-c
+```objective-c
 	[[NWSPromoContent sharedContent] tableCellNib];
 	[[NWSPromoContent sharedContent] collectionCellNib];
-	```
+```
+
 ## Integrating SDK
 ### Simple View
 Use this method when you are not using view collections and you need to display a single view containing a promo article, such as a banner.
@@ -139,7 +140,7 @@ Use this method when you are not using view collections and you need to display 
 	```
 
 2. Fill in the view with content data:
-	```objective-c
+```objective-c
 	[[NWSPromoContent sharedContent] bind:promoView imageSize:NWSImageSizeSmall completion:^(NWSHeadlineView *view, NSError *error) {
 	     if (!error) {
 	          \\add view to layout
@@ -147,7 +148,7 @@ Use this method when you are not using view collections and you need to display 
 	          \\handle error            
 	     }
 	}];
-	```
+```
 	
 	If ```error == nil```, it means that that view has already been filled with data and you just need to add it to the layout.
 	
