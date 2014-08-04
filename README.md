@@ -28,3 +28,13 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 5. Add "Other Linker Flags: -ObjC" in Build Settings:
 6. Import header file: 
   `#import <News360PromoSDK/News360PromoSDK.h>`
+
+## Usage
+
+## Integrating SDK
+
+## NWSImageView
+
+## Article
+
+## Tracking user content
