@@ -32,11 +32,11 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 ## Usage
 ### Set up NWSPromoContent
 1. After starting the app you need to pass ZoneId to the SDK:
-`    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+```    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     {
         [[NWSPromoContent sharedContent] setZoneId:@"<YOUR_ZONE_ID>"]; 
         return YES;
-    }`
+    }```
  
 2. SDK is set to development mode by default. To enable production mode use the following method:
 	[[NWSPromoContent sharedContent] setMode:NWSPromoContentModeProduction];
@@ -45,14 +45,14 @@ In order to run SDK in production mode you will need to enable it on both the cl
 
 3. You can set personalized parameters to achieve better targeting of promoted content. Once set
 these parameters will affect all promoted future content requests.
-	[[NWSPromoContent sharedContent] setCategory:@"<category>"];
+```	[[NWSPromoContent sharedContent] setCategory:@"<category>"];
 	[[NWSPromoContent sharedContent] setKeywords:[NSArray arrayWithObjects:@"<keyword1>", @"<keyword2>", nil]];
 	[[NWSPromoContent sharedContent] setLocation:CLLocationCoordinate2DMake(<latitude>, <longitude>)];
 	[[NWSPromoContent sharedContent] setGender:NWSGenderMale];
-	[[NWSPromoContent sharedContent] setAge:26];`
+	[[NWSPromoContent sharedContent] setAge:26];```
 
 4. You can also set up image preloading:
-	`[[NWSPromoContent sharedContent] setPreloadImages:YES];`
+	```[[NWSPromoContent sharedContent] setPreloadImages:YES];```
 
 ## Integrating SDK
 
