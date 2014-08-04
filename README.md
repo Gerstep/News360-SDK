@@ -135,22 +135,22 @@ In order to use UITableView and UICollectionView you need to register the nib:
 ### Simple View
 Use this method when you are not using view collections and you need to display a single view containing a promo article, such as a banner.
 1. Create test object of NWSHeadlineView class:
-	```objective-c
+```objective-c
 	NWSHeadlineView *promoView = [[NWSPromoContent sharedContent] view];
-	```
+```
 
 2. Fill in the view with content data:
 ```objective-c
-	[[NWSPromoContent sharedContent] bind:promoView imageSize:NWSImageSizeSmall completion:^(NWSHeadlineView *view, NSError *error) {
+[[NWSPromoContent sharedContent] bind:promoView imageSize:NWSImageSizeSmall completion:^(NWSHeadlineView *view, NSError *error) {
 	     if (!error) {
 	          \\add view to layout
 	     } else {
 	          \\handle error            
 	     }
-	}];
+}];
 ```
 	
-	If ```error == nil```, it means that that view has already been filled with data and you just need to add it to the layout.
+	If `error == nil`, it means that that view has already been filled with data and you just need to add it to the layout.
 	
 3. To customize UI you can inherit NWSHeadlineView and/or create your own Xib. In this case you would instantiate an object of your class (init, load from nib, etc.) and complete step 2 to fill in the content data.
 
