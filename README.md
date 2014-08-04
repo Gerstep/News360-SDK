@@ -161,17 +161,17 @@ Use this integration method if you are using view collections (UITableView or UI
 	Promoted content IDs (Key) – a unique key representing the promoted content object. The Key is used to link views with preloaded promoted content data. If you are using the same Key to bind views, you will always get the same data. Keys must be stored in your app using a strong reference.
 
 2. Once you have the key array, you will need to create test views:
-```objective-c
-NWSHeadlineView *view = [[NWSPromoContent sharedContent] view];
-```
-	
-You need to register a nib to use `NWSHeadlineTableCell` and `NWSHeadlineCollectionCell`:
-```objective-c
-[self.tableView registerNib:[[NWSPromoContent sharedContent] tableCellNib] forCellReuseIdentifier:@"PromoTableCell"];
-[self.collectionView registerNib:[[NWSPromoContent sharedContent] collectionCellNib] forCellWithReuseIdentifier:@"PromoCollectionCell"];
-```
+	```objective-c
+	NWSHeadlineView *view = [[NWSPromoContent sharedContent] view];
+	```
 		
-You need to use the same identifier argument when calling `dequeueReusableCellWithIdentifier:forIndexPath:` from `UITableView` and `UICollectionView`.
+	You need to register a nib to use `NWSHeadlineTableCell` and `NWSHeadlineCollectionCell`:
+	```objective-c
+	[self.tableView registerNib:[[NWSPromoContent sharedContent] tableCellNib] forCellReuseIdentifier:@"PromoTableCell"];
+	[self.collectionView registerNib:[[NWSPromoContent sharedContent] collectionCellNib] forCellWithReuseIdentifier:@"PromoCollectionCell"];
+	```
+			
+	You need to use the same identifier argument when calling `dequeueReusableCellWithIdentifier:forIndexPath:` from `UITableView` and `UICollectionView`.
 
 3. At the moment, views are empty and need to be filled in with data.
 	```objective-c
