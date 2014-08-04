@@ -208,7 +208,7 @@ Add UITapGestureRecognizer to manage the tap gesture in NWSHeadlineView
 	}
 	```
 
-###Customizing headlines
+### Customizing headlines
 
 You have two options for customizing promoted content headlines:
 
@@ -233,31 +233,50 @@ Be sure to have `IBOutlets` connected to the respective view elements when creat
 @property (nonatomic, strong) IBOutlet UILabel *title;
 @property (nonatomic, strong) IBOutlet UILabel *text;
 @property (nonatomic, strong) IBOutlet UILabel *date;
+@property (nonatomic, strong) IBOutlet UILabel *source;
+@property (nonatomic, strong) IBOutlet UILabel *campaignTitle
 ```
 
 ### NWSImageView
 
-
 In order to display headline images correctly use NWSImageView. You just need to add NWSImageView to your custom view and link it to the image IBOutlet. Image dimensions will depend on the imageSize argument, which can have one of the following values:
-1) NWSImageSizeSmall - for an image size of less than 200px
-2) NWSImageSizeMedium - for an image size of between 200px and 400px
-3) NWSImageSizeLarge - for an image size of more than 400px
-4) NWSImageSizeOriginal - for an original image
-Images will automatically rescale to fill NWSImageView.
-Article
-Display article
+
+1. `NWSImageSizeSmall` - for an image size of less than 200px
+2. `NWSImageSizeMedium` - for an image size of between 200px and 400px
+3. `NWSImageSizeLarge` - for an image size of more than 400px
+4. `NWSImageSizeOriginal` - for an original image
+
+Images will automatically rescale to fill `NWSImageView`.
+
+## Article
+### Display article
 You can open an article using the view’s Key property:
-NWSHeadlineTableCell *cell = (NWSHeadlineTableCell *)[tableView
-cellForRowAtIndexPath:indexPath];
-Managing WebView links
+
+```objective-c
+NWSHeadlineTableCell *cell = (NWSHeadlineTableCell *)[tableView cellForRowAtIndexPath:indexPath];
+NWSContentViewController *contentController = [[NWSContentViewController alloc] initWithKey:cell.key];
+[self.navigationController pushViewController:contentController animated:YES];
+```
+
+### Managing WebView links
+
 1. WebView links open by default in Safari. To change this setting, you can create a subclass of
-NWSContentViewController and define the method without calling it super:
+`NWSContentViewController` and define the method without calling `super`:
+
+```objective-c
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 navigationType:(UIWebViewNavigationType)navigationType
+```
+
 2. If you reload
+
+```objective-c
 - (void)webViewDidFinishLoad:(UIWebView *)webView
-Call super
-Customizing article style
+```
+
+Call `super`
+
+### Customizing article style
 To modify an article’s style, you can reload it using the NWSContentViewController method:
 - (NSString *)style
 And return to the custom style.
