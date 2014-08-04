@@ -350,11 +350,15 @@ color: #1f2124;
 }
 ```
 
-Managing content errors
+### Managing content errors
 The following method is used in case of any data transfer error:
+```
 - (void)onContentError:(NSError *)error
+```
+
 It has no default action but it could be redefined for custom error handling (hiding controller, notification
 etc.)
+
 Tracking user content
 In order to enable personalization you should call trackRead: from NWSPromoContent every time a user opens an article within your app. Don't call trackRead: when a user opens promo content.
 - (void)trackRead:(NWSContentEvent *)event;
