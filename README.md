@@ -274,24 +274,82 @@ NWSContentViewController *contentController = [[NWSContentViewController alloc] 
 	Call `super`
 
 ### Customizing article style
-To modify an article’s style, you can reload it using the NWSContentViewController method:
+To modify an article’s style, you can reload it using the `NWSContentViewController` method and return the custom style:
+```objective-c
 - (NSString *)style
-And return to the custom style.
-The return string should not be wrapped into <style></style>. This happens automatically while HTML is being generated.
+```
+The return string **should not** be wrapped into `<style></style>`. This happens automatically while HTML is being generated.
 Example:
-Article content has an article class
+PIIIIIC
+
+Article content has an `article` class
 Each tag (Internet, Travel, Airlines, for example) has a tag class, and the tag container has tag class.
-The title has the title class.
-Publishing time has the timestamp class.
-Publisher logo has the source-logo class.
-Publisher name has the source-link class.
-Time, publisher logo and publisher name container has the source class.
-Each paragraph in the article has the text class.
-Default style:
+The title has the `title` class.
+Publishing time has the `timestamp` class.
+Publisher logo has the `source-logo` class.
+Publisher name has the `source-link` class.
+Time, publisher logo and publisher name container has the `source` class.
+Each paragraph in the article has the `text` class.
+
+**Default style:**
+```css
 .article * {
 margin: 0;
 padding: 0;
 }
+.article {
+padding: 25px 120px;
+}
+.article .title, .article .text, .article .source-link, .article .tag, .article .timestamp {
+font-family: "Helvetica Neue Light", "Helvetica Neue", "Helvetica", sans-serif;
+}
+.article .title {
+font-weight: 200;
+margin-bottom: 10px;
+font-size: 30px;
+line-height: 40px;
+color: #272b31;
+}
+.article .tags {
+font-size: 0;
+margin-bottom: 10px;
+}
+.article .tags .tag {
+display: inline-block;
+background: #e6e6e6;
+border-radius: 2px;
+padding: 7px;
+color: #4f4f4f;
+font-size: 14px;
+margin-right: 7px;
+}
+.article .source {
+margin-bottom: 22px;
+}
+.article .source .timestamp {
+font-size: 14px;
+color: #7D7D7D;
+position: relative;
+top: -1px;
+}
+.article .source .source-logo {
+position: relative;
+top: 2px;
+margin: 0 3px;
+}
+.article .source .source-link {
+text-decoration: none;
+font-size: 18px;
+color: #394e6b;
+}
+.article .text {
+font-size: 18px;
+margin-bottom: 20px;
+line-height: 26px;
+color: #1f2124;
+}
+```
+
 Managing content errors
 The following method is used in case of any data transfer error:
 - (void)onContentError:(NSError *)error
