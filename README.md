@@ -108,10 +108,78 @@ There are 3 base classes for displaying an article headline:
 * ```NWSHeadlineCollectionCell : UICollectionViewCell```
 
 For testing purposes all these classes have default views:
-[1]: http://imgur.com/8xz6MOT "1"
-![Headline View](http://imgur.com/qGYhPAr)
+[1]: http://imgur.com/8xz6MOT
+[2]: http://imgur.com/qGYhPAr
 
+NWSPromoContent view can be created using the following method:
+	```objective-c
+	[[NWSPromoContent sharedContent] view];
+	```
+
+In order to use UITableView and UICollectionView you need to register the nib:
+	```objective-c
+	[[NWSPromoContent sharedContent] tableCellNib];
+	[[NWSPromoContent sharedContent] collectionCellNib];
+	```
 ## Integrating SDK
+### Simple View
+Use this method when you are not using view collections and you need to display a single view containing a promo article, such as a banner.
+1. Create test object of NWSHeadlineView class:
+	```objective-c
+	NWSHeadlineView *promoView = [[NWSPromoContent sharedContent] view];
+	```
+
+2. Fill in the view with content data:
+	```objective-c
+	[[NWSPromoContent sharedContent] bind:promoView imageSize:NWSImageSizeSmall completion:^(NWSHeadlineView *view, NSError *error) {
+	     if (!error) {
+	          \\add view to layout
+	     } else {
+	          \\handle error            
+	     }
+	}];
+	```
+	
+	If ```error == nil```, it means that that view has already been filled with data and you just need to add it to the layout.
+	
+3. To customize UI you can inherit NWSHeadlineView and/or create your own Xib. In this case you would instantiate an object of your class (init, load from nib, etc.) and complete step 2 to fill in the content data.
+
+### Content Key Integration
+Use this integration method if you are using view collections (UITableView or UICollectionView) and need to reload/reuse content cells after scrolling through the collection.
+
+1. Request desired number of headlines using following method:
+	```objective-c
+	- (void)loadWithMaxCount:(NSUInteger)maxCount imageSize:(NWSImageSize)imageSize completion:(NWSLoadCompletion)completion;
+	```
+	`maxCount` - number of headlines
+	`completion` - a block of ```objective-c ^(NSArray* keys, NSError* error) ```
+	`keys` – an array containing promoted content IDs. The number of keys could be less than the maxCount
+	Promoted content IDs (Key) – a unique key representing the promoted content object. The Key is used to link views with preloaded promoted content data. If you are using the same Key to bind views, you will always get the same data. Keys must be stored in your app using a strong reference.
+
+2. Once you have the key array, you will need to create test views:
+	```objective-c
+	NWSHeadlineView *view = [[NWSPromoContent sharedContent] view];
+	```
+	
+	You need to register a nib to use `NWSHeadlineTableCell` and `NWSHeadlineCollectionCell`:
+		```objective-c
+		[self.tableView registerNib:[[NWSPromoContent sharedContent] tableCellNib] forCellReuseIdentifier:@"Pr
+		omoTableCell"];
+		[self.collectionView registerNib:[[NWSPromoContent sharedContent] collectionCellNib] forCellWithReuseI
+		dentifier:@"PromoCollectionCell"];
+		```
+	You need to use the same identifier argument when
+	calling `dequeueReusableCellWithIdentifier:forIndexPath:` from `UITableView` and `UICollectionView`.
+
+3. At the moment, views are empty and need to be filled in with data.
+	```objective-c
+	[[NWSPromoContent sharedContent] bind:view key:key];
+	[[NWSPromoContent sharedContent] bind:tableCell key:key];
+	[[NWSPromoContent sharedContent] bind:collectionCell key:key];
+	```
+	After binding is complete the views are ready to be displayed.
+
+4. In order to customize UI you can inherit from classes (NWSHeadlineView, NWSHeadlineTableCell or NWSHeadlineCollectionCell) and/or create a custom Xib. To do this, you need to instantiate an object of your class (init, load from nib, etc.) and be sure to complete step 3. Please note that binding will only be successful if the view is an object of NWSHeadlineView, NWSHeadlineTableCell, NWSHeadlineCollectionCell or inherited classes.
 
 ## NWSImageView
 
