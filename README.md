@@ -108,7 +108,7 @@ There are 3 base classes for displaying an article headline:
 * ```NWSHeadlineCollectionCell : UICollectionViewCell```
 
 For testing purposes all these classes have default views:
-![Headline View](http://imgur.com/8xz6MOT)
+[1]: http://imgur.com/8xz6MOT "1"
 ![Headline View](http://imgur.com/qGYhPAr)
 
 ## Integrating SDK
