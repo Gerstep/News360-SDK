@@ -108,7 +108,7 @@ There are 3 base classes for displaying an article headline:
 * ```NWSHeadlineCollectionCell : UICollectionViewCell```
 
 For testing purposes all these classes have default views:
-![Headline View](http://imgur.com/8xz6MOT)
+![Headline View](http://i.imgur.com/qGYhPAr.png)
 [2]: http://imgur.com/qGYhPAr
 
 NWSPromoContent view can be created using the following method:
