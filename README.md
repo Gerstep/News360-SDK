@@ -32,11 +32,11 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 ## Usage
 ### Set up NWSPromoContent
 1. After starting the app you need to pass ZoneId to the SDK:
-`- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    [[NWSPromoContent sharedContent] setZoneId:@"<YOUR_ZONE_ID>"]; 
-    return YES;
-}`
+`    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+    {
+        [[NWSPromoContent sharedContent] setZoneId:@"<YOUR_ZONE_ID>"]; 
+        return YES;
+    }`
  
 2. SDK is set to development mode by default. To enable production mode use the following method:
     [[NWSPromoContent sharedContent] setMode:NWSPromoContentModeProduction];
