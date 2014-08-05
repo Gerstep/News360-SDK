@@ -21,23 +21,23 @@ Add following uses-permissions to the manifest file:
 ### Set up NWSPromoContent
 
 1. After starting the app you need to pass **ZoneId** to the SDK. **ZoneId** will be obtained after registration. 
-We recommend to use **onCreate** method for the **Application** class. If you don't use the Application class you can use **onCreate** method for **Activity**.
-
-`getInstance` method requires !Context(http://developer.android.com/reference/android/content/Context.html) type parameter.
-
-```java
-@Override
-public void onCreate() {
- super.onCreate();
-    News360PromoContent.getInstance(this).setZoneId("<YOUR_ZONE_ID>");
-}
-```
+ We recommend to use **onCreate** method for the **Application** class. If you don't use the Application class you can use **onCreate** method for **Activity**.
+ 
+ `getInstance` method requires [Context](http://developer.android.com/reference/android/content/Context.html) type parameter.
+ 
+ ```java
+ @Override
+ public void onCreate() {
+  super.onCreate();
+     News360PromoContent.getInstance(this).setZoneId("<YOUR_ZONE_ID>");
+ }
+ ```
 
 2. SDK is set in development mode by default. To switch to the production mode use `setMode` method. It accepts the `Mode` parameter which is public enum of News360PromoContent class:
-
-```java
-News360PromoContent.getInstance(this).setMode(Mode.PRODUCTION);
-```
+ 
+ ```java
+ News360PromoContent.getInstance(this).setMode(Mode.PRODUCTION);
+ ```
 
 3. You can pass personalized parameters to achieve better targeting of promoted content. Once set these parameters will affect all promoted content requests in the future.
 News360PromoContent.getInstance(this).setCategory(category); // String
