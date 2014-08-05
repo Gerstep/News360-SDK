@@ -1,40 +1,21 @@
 News360 Promoted Content SDK (iOS)
 ===========
 ## Introduction
-Using News360 Promoted Content SDK allows you to display personalized, promoted stories within your app.
+Using News360 Promoted Content SDK allows you to display personalized, promoted stories within your Android app.
 
-#### Supported architectures
-* amrv7
-* armv7s
-* arm64
+#### Minimum SDK version
+9
 
-#### Base SDK
-7.0
-
-#### Target SDK
-6.0
+#### Target SDK version
+18
 
 ## Installation
-1. Add files to your project
-  * News360PromoSDK.framework
-  * News360PromoSDK.bundle
-  
-	![Installation](http://i.imgur.com/y0Feo5t.png)
-2. Make sure you have following standard frameworks added:
-  * SystemConfiguration.framework
-  * CFNetwork.framework
-  * AdSupport.framework
-  * CoreGraphics.framework
-  * UIKit.framework
-  * Foundation.framework
-3. Link framework to your targets:
-	![Installation](http://i.imgur.com/Ak9m0oW.png)
-4. Provide Framework Search Path
-	![Installation](http://i.imgur.com/Bd5oTjr.png)
-5. Add "Other Linker Flags: -ObjC" in Build Settings:
-	![Installation](http://i.imgur.com/qjfDtwW.png)
-6. Import header file: 
-  `#import <News360PromoSDK/News360PromoSDK.h>`
+Add **News360PromoSDK.jar** to the `/libs` folder of your project.
+Add following uses-permissions to the manifest file:
+```java
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
 
 ## Usage
 ### Set up NWSPromoContent
