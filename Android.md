@@ -258,7 +258,7 @@ protected TextView campaignTitle;
 protected TextView source;
 ```
 
-### News360ImageView
+## News360ImageView
 News360ImageView is used to display headline images properly. All you need to do is to include it into your custom view and link it to the image field. SDK will fill it in with correct image.
 
 NOTE: you can't set width and height as **wrap_content**. Instead you have to set specific size or set it as **match_parent**. 
@@ -271,3 +271,107 @@ SDK will load images depending on imageSize parameter. It accepts enum and has 4
 4. NWSImageSizeOriginal - for original image
 
 Images will automatically scale depending on real view size ensuring correct displaying.
+
+## Article 
+**News360ContentActivity** is the basic article activity. As an example there's custom implementation News360SimpleActivity, which only include WebView displaying article.
+
+You need to add this activity to the manifest file of your app:
+
+```java
+<activity android:name="com.news360.promosdk.News360SimpleActivity" />
+```
+
+After that you need to manage the tap on a headline and launch the activity using intent. You can handle the tap using **OnClickListener**. You must include headline key into new intent using `putKey(Intent intent, Object key)` method:
+
+```java
+headlineView.setOnClickListener(new OnClickListener() {
+
+@Override
+public void onClick(View view){
+
+   Intent intent = new Intent(yourPackageContext, News360SimpleActivity.class);
+   News360PromoContent.putKey(intent, key);
+   startActivity(intent); 
+}
+
+});
+```
+
+### Customizing article style
+
+In order to customize article style you just need to inherit from **News360ContentActivity** class and link webView with required view in **onCreate** method. Also, you can redefine css for the article content by redefining **getStyle()** method and returning your custom style as below:
+
+```css
+.article * {
+margin: 0;
+padding: 0;
+}
+.article {
+padding: 25px 120px;
+}
+.article .title, .article .text, .article .source-link, .article .tag, .article .timestamp {
+font-family: "Helvetica Neue Light", "Helvetica Neue", "Helvetica", sans-serif;
+}
+.article .title {
+font-weight: 200;
+margin-bottom: 10px;
+font-size: 30px;
+line-height: 40px;
+color: #272b31;
+}
+.article .tags {
+font-size: 0;
+margin-bottom: 10px;
+}
+.article .tags .tag {
+display: inline-block;
+background: #e6e6e6;
+border-radius: 2px;
+padding: 7px;
+color: #4f4f4f;
+font-size: 14px;
+margin-right: 7px;
+}
+.article .source {
+margin-bottom: 22px;
+}
+.article .source .timestamp {
+font-size: 14px;
+color: #7D7D7D;
+position: relative;
+top: -1px;
+}
+.article .source .source-logo {
+position: relative;
+top: 2px;
+margin: 0 3px;
+}
+.article .source .source-link {
+text-decoration: none;
+font-size: 18px;
+color: #394e6b;
+}
+.article .text {
+font-size: 18px;
+margin-bottom: 20px;
+line-height: 26px;
+color: #1f2124;
+}
+```
+
+## Tracking user content
+
+In order to enable personalization you should send the data about non-promo content reads. To do that you should use `trackRead(ContentEvent event)` method that accepts **ContentEvent** parameters.
+
+```java
+ContentEvent event = new ContentEvent();
+event.setTitle("Some title");
+event.setSubtitle("Some subtitle");
+event.setText("Some text");
+event.setUrl("Some url");
+event.setCategoryName("Some category name");
+event.setSourceName("Some source name");
+event.setAuthorName("Some author name"); 
+```
+
+All fields are optional.
