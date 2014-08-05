@@ -1,4 +1,4 @@
-News360 Promoted Content SDK (iOS)
+News360 Promoted Content SDK (Android)
 ===========
 ## Introduction
 Using News360 Promoted Content SDK allows you to display personalized, promoted stories within your Android app.
@@ -120,3 +120,82 @@ There's two ways to load headlines and views:
 #### 1. Simple single view
 
 Use this method when you are not using view collections and you need to display a single view containing promo article, like a banner.
+
+You need to call `bind(News360HeadlineView view, ImageSize imageSize, BindCompletion completion)` method where **ImageSize** parameter defines quality of the image that will be downloaded. For standard view **SMALL** is enough but you can always change it in your customized view.
+
+```java
+News360HeadlineView view = new News360HeadlineGridCell(this);
+News360PromoContent.getInstance(this).bind(view, ImageSize.SMALL, new BindCompletion() {
+
+@Override
+public void completed(News360Headline view, Exception error){
+
+   if(error == null) { // make sure to handle an error
+      // if error == null view already contains data and ready to be displayed
+   } else {
+   
+   }
+
+}
+
+});
+```
+
+#### 2. Promo Content Key integration
+
+This is preferred method because it allows you to download and use multiple headlines simultaneously. Also, this method is preferred when using headlines in collections since keys allow the reusability.
+
+Call method `load(int maxCount , ImageSize imageSize, LoadCompletion completion)`:
+
+```java
+News360PromoContent.getInstance(this).load(10, ImageSize.SMALL, new LoadCompletion() {
+
+@Override
+public void completed(List<Object> keys, Exception error){
+
+   if(error == null) { // make sure to handle an error
+   
+   } else {
+   
+   }
+
+}
+
+});
+```
+
+Method **completed** will return list of promo content **keys**. Number of keys will be equal to the number of loaded headlines and it may be less than **maxCount**. Each key in the list is a unique headline ID allowing you to populate the view with required content. Keys must be stored in your app using strong reference.
+
+In order to populate view with the content call `bind(News360HeadlineView view, Object key)` method. It will synchronously populate the view:
+
+```java
+News360PromoContent.getInstance(this).bind(view, key); 
+```
+
+## Customizing Headline View
+
+You can customize headline view by creating custom class that will inherit from **News360HeadlineView** and redefine **bind()** method that links your UI with required fields.
+
+New class should look something like this:
+
+```java
+public class YourView extends News360HeadlineView {
+
+ public YourView(Context context) {
+      super(context);
+   }
+
+ public YourView(Context context, AttributeSet attributeSet) {
+      super(context, attributeSet);
+   }
+
+ public YourView(Context context, AttributeSet attributeSet, int defStyle) {
+      super(context, attributeSet, defStyle);
+   }
+
+   @Override
+ public void completed() {
+      // link UI and class fields
+   }
+}
+```
