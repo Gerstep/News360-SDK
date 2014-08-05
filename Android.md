@@ -12,367 +12,47 @@ Using News360 Promoted Content SDK allows you to display personalized, promoted 
 ## Installation
 Add **News360PromoSDK.jar** to the `/libs` folder of your project.
 Add following uses-permissions to the manifest file:
-```java
+```
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
 
 ## Usage
 ### Set up NWSPromoContent
-1. After starting the app you need to pass ```ZoneId``` to the SDK:
 
-	```objective-c
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-	    {
-	        [[NWSPromoContent sharedContent] setZoneId:@"<YOUR_ZONE_ID>"]; 
-	        return YES;
-	    }
-	```
-	
-2. SDK is set to development mode by default. To enable production mode use the following method:
-	```objective-c
-	[[NWSPromoContent sharedContent] setMode:NWSPromoContentModeProduction];
-	```
-In order to run SDK in production mode you will need to enable it on both the client’s and server’s sides. See below for details.
-3. You can set personalized parameters to achieve better targeting of promoted content. Once set
-these parameters will affect all promoted future content requests.
+1. After starting the app you need to pass **ZoneId** to the SDK. **ZoneId** will be obtained after registration. 
+We recommend to use **onCreate** method for the **Application** class. If you don't use the Application class you can use **onCreate** method for **Activity**.
 
-	```objective-c
-		[[NWSPromoContent sharedContent] setCategory:@"<category>"];
-		[[NWSPromoContent sharedContent] setKeywords:[NSArray arrayWithObjects:@"<keyword1>", @"<keyword2>", nil]];
-		[[NWSPromoContent sharedContent] setLocation:CLLocationCoordinate2DMake(<latitude>, <longitude>)];
-		[[NWSPromoContent sharedContent] setGender:NWSGenderMale];
-		[[NWSPromoContent sharedContent] setAge:26];
-	```
-	
-4. You can also set up image preloading:
+`getInstance` method requires !Context(http://developer.android.com/reference/android/content/Context.html) type parameter.
 
-	```objective-c
-		[[NWSPromoContent sharedContent] setPreloadImages:YES];
-	```
-	
-	By default, it is enabled, so images will load before completion callback. The image will therefore always load before binding.
-	If it is disabled, the image may finish loading after binding so users may see an empty space until the image is loaded.
-5. You can use either of the following two methods to display date and time:
-
-	```objective-c
-	[[NWSPromoContent sharedContent] useRelativeDate:YES];
-	```
-	
-	Displaying date and time in relative format (e.g. "1 hour ago"). If relative date is disabled, time is
-	shown using the custom date format:
-	
-	```objective-c
-	[[NWSPromoContent sharedContent] setDateFormat:@"<your_date_format>"];
-	```
-	
-	By default date and time are displayed in MediumDate-ShortTime format (e.g. "Feb 21, 2014,
-	12:00 AM")
-
-### Start Session
-A new session must be started when the app is activated (is launched or becomes active after other actions):
-
-```objective-c
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    [[NWSPromoContent sharedContent] startSessionWithCompletion:^(BOOL isTestMode, NSError *error) {
-        //handle session start
-    }];
+```java
+@Override
+public void onCreate() {
+ super.onCreate();
+    News360PromoContent.getInstance(this).setZoneId("<YOUR_ZONE_ID>");
 }
 ```
 
-```isTestMode``` defines the SDK mode on the server, which depends on the web interface and
-`zoneId` settings.
+2. SDK is set in development mode by default. To switch to the production mode use `setMode` method. It accepts the `Mode` parameter which is public enum of News360PromoContent class:
 
-After successfully starting a session, you can access a number of promoted articles available for display:
-```objective-c
-[NWSPromoContent sharedContent].headlineCount
-```
-### Display article headline
-
-There are 3 base classes for displaying an article headline:
-* ```NWSHeadlineView : UIView```
-* ```NWSHeadlineTableCell : UITableViewCell```
-* ```NWSHeadlineCollectionCell : UICollectionViewCell```
-
-For testing purposes all these classes have default views:
-
-![Headline View](http://i.imgur.com/qGYhPAr.png)
-
-![Headline View](http://i.imgur.com/8xz6MOT.png)
-
-NWSPromoContent view can be created using the following method:
-```objective-c
-	[[NWSPromoContent sharedContent] view];
+```java
+News360PromoContent.getInstance(this).setMode(Mode.PRODUCTION);
 ```
 
-In order to use UITableView and UICollectionView you need to register the nib:
-```objective-c
-	[[NWSPromoContent sharedContent] tableCellNib];
-	[[NWSPromoContent sharedContent] collectionCellNib];
-```
-
-## Integrating SDK
-### Simple View
-Use this method when you are not using view collections and you need to display a single view containing a promo article, such as a banner.
-
-1. Create test object of NWSHeadlineView class:
-	```objective-c
-	NWSHeadlineView *promoView = [[NWSPromoContent sharedContent] view];
-	```
-
-2. Fill in the view with content data:
-	```objective-c
-	[[NWSPromoContent sharedContent] bind:promoView imageSize:NWSImageSizeSmall completion:^(NWSHeadlineView *view, NSError *error) {
-	if (!error) {
-	  \\add view to layout
-	} else {
-	  \\handle error            
-	}
-	}];
-	```
-	
-	If `error == nil`, it means that that view has already been filled with data and you just need to add it to the layout.
-	
-3. To customize UI you can inherit NWSHeadlineView and/or create your own Xib. In this case you would instantiate an object of your class (init, load from nib, etc.) and complete step 2 to fill in the content data.
-
-### Content Key Integration
-Use this integration method if you are using view collections (UITableView or UICollectionView) and need to reload/reuse content cells after scrolling through the collection.
-
-1. Request desired number of headlines using following method:
-	```objective-c
-	- (void)loadWithMaxCount:(NSUInteger)maxCount imageSize:(NWSImageSize)imageSize completion:(NWSLoadCompletion)completion;
-	```
-	
-	`maxCount` - number of headlines
-	
-	`completion` - a block of ``` ^(NSArray* keys, NSError* error) ```
-	
-	`keys` – an array containing promoted content IDs. The number of keys could be less than the maxCount
-	
-	Promoted content IDs (Key) – a unique key representing the promoted content object. The Key is used to link views with preloaded promoted content data. If you are using the same Key to bind views, you will always get the same data. Keys must be stored in your app using a strong reference.
-
-2. Once you have the key array, you will need to create test views:
-	```objective-c
-	NWSHeadlineView *view = [[NWSPromoContent sharedContent] view];
-	```
-		
-	You need to register a nib to use `NWSHeadlineTableCell` and `NWSHeadlineCollectionCell`:
-	```objective-c
-	[self.tableView registerNib:[[NWSPromoContent sharedContent] tableCellNib] forCellReuseIdentifier:@"PromoTableCell"];
-	[self.collectionView registerNib:[[NWSPromoContent sharedContent] collectionCellNib] forCellWithReuseIdentifier:@"PromoCollectionCell"];
-	```
-			
-	You need to use the same identifier argument when calling `dequeueReusableCellWithIdentifier:forIndexPath:` from `UITableView` and `UICollectionView`.
-
-3. At the moment, views are empty and need to be filled in with data.
-	```objective-c
-	[[NWSPromoContent sharedContent] bind:view key:key];
-	[[NWSPromoContent sharedContent] bind:tableCell key:key];
-	[[NWSPromoContent sharedContent] bind:collectionCell key:key];
-	```
-	
-	After binding is complete the views are ready to be displayed.
-
-4. In order to customize UI you can inherit from classes (`NWSHeadlineView`, `NWSHeadlineTableCell` or `NWSHeadlineCollectionCell`) and/or create a custom Xib. To do this, you need to instantiate an object of your class (init, load from nib, etc.) and be sure to complete step 3. Please note, that binding will only be successful if the view is an object of `NWSHeadlineView`, `NWSHeadlineTableCell`, `NWSHeadlineCollectionCell` or inherited classes.
-
-### Tap Recognition in NWSHeadlineView
-
-Add UITapGestureRecognizer to manage the tap gesture in NWSHeadlineView
-```objective-c
-- (void)addPromoViewWithFrame: (CGRect)frame
-{
-  NWSHeadlineView *promoView = [NWSPromoContent sharedContent] view];
-	promoView.frame = frame
-	[[NWSPromoContent sharedContent] bind:promoView key:key];
-	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidTap:)];
-	[promoView addGestureRecognizer:tapRecognizer];
-	[self.container addSubview:promoView];
-}
-	
-- (void)viewDidTap:(UITapGestureRecognizer *)gesture
-{
-	NWSHeadlineView* view = (NWSHeadlineView *)gesture.view;
-	// work with the view
-}
-```
-
-### Customizing headlines
-
-You have two options for customizing promoted content headlines:
-
-1. Without inheriting
-	If you don't need to modify functionality of a class and just want change the view, you can
-	create a custom Xib:
-	
-	![Customizing](http://i.imgur.com/pg65vWl.png)
-	
-2. With inheriting
-	If you need to add some functionality, like an additional label, you should inherit from a base class:
-	```objective-c
-	@interface MyHeadlineView : NWSHeadlineView
-	@property (nonatomic, strong) IBOutlet UILabel *myLabel;
-	@end
-	```
-	And create you own Xib:
-	
-	![Headline View](http://i.imgur.com/ATRxIfF.png)
-
-Be sure to have `IBOutlets` connected to the respective view elements when creating custom Xib. All base classes have a preset list of IBOutlets:
-
-```objective-c
-@property (nonatomic, strong) IBOutlet NWSImageView *image;
-@property (nonatomic, strong) IBOutlet UILabel *title;
-@property (nonatomic, strong) IBOutlet UILabel *text;
-@property (nonatomic, strong) IBOutlet UILabel *date;
-@property (nonatomic, strong) IBOutlet UILabel *source;
-@property (nonatomic, strong) IBOutlet UILabel *campaignTitle
-```
-
-### NWSImageView
-
-In order to display headline images correctly use NWSImageView. You just need to add NWSImageView to your custom view and link it to the image IBOutlet. Image dimensions will depend on the imageSize argument, which can have one of the following values:
-
-1. `NWSImageSizeSmall` - for an image size of less than 200px
-2. `NWSImageSizeMedium` - for an image size of between 200px and 400px
-3. `NWSImageSizeLarge` - for an image size of more than 400px
-4. `NWSImageSizeOriginal` - for an original image
-
-Images will automatically rescale to fill `NWSImageView`.
-
-## Article
-### Display article
-You can open an article using the view’s Key property:
-
-```objective-c
-NWSHeadlineTableCell *cell = (NWSHeadlineTableCell *)[tableView cellForRowAtIndexPath:indexPath];
-NWSContentViewController *contentController = [[NWSContentViewController alloc] initWithKey:cell.key];
-[self.navigationController pushViewController:contentController animated:YES];
-```
-
-### Managing WebView links
-
-1. WebView links open by default in Safari. To change this setting, you can create a subclass of
-`NWSContentViewController` and define the method without calling `super`:
-	```objective-c
-	- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
-	navigationType:(UIWebViewNavigationType)navigationType
-	```
-
-2. If you reload
-	```objective-c
-	- (void)webViewDidFinishLoad:(UIWebView *)webView
-	```
-	Call `super`
-
-### Customizing article style
-To modify an article’s style, you can reload it using the `NWSContentViewController` method and return the custom style:
-```objective-c
-- (NSString *)style
-```
-The return string **should not** be wrapped into `<style></style>`. This happens automatically while HTML is being generated.
-Example:
-
-![Default Layout](http://i.imgur.com/n5JHdFa.png)
-
-Article content has an `article` class
-Each tag (Internet, Travel, Airlines, for example) has a tag class, and the tag container has tag class.
-The title has the `title` class.
-Publishing time has the `timestamp` class.
-Publisher logo has the `source-logo` class.
-Publisher name has the `source-link` class.
-Time, publisher logo and publisher name container has the `source` class.
-Each paragraph in the article has the `text` class.
-
-**Default style:**
-```css
-.article * {
-margin: 0;
-padding: 0;
-}
-.article {
-padding: 25px 120px;
-}
-.article .title, .article .text, .article .source-link, .article .tag, .article .timestamp {
-font-family: "Helvetica Neue Light", "Helvetica Neue", "Helvetica", sans-serif;
-}
-.article .title {
-font-weight: 200;
-margin-bottom: 10px;
-font-size: 30px;
-line-height: 40px;
-color: #272b31;
-}
-.article .tags {
-font-size: 0;
-margin-bottom: 10px;
-}
-.article .tags .tag {
-display: inline-block;
-background: #e6e6e6;
-border-radius: 2px;
-padding: 7px;
-color: #4f4f4f;
-font-size: 14px;
-margin-right: 7px;
-}
-.article .source {
-margin-bottom: 22px;
-}
-.article .source .timestamp {
-font-size: 14px;
-color: #7D7D7D;
-position: relative;
-top: -1px;
-}
-.article .source .source-logo {
-position: relative;
-top: 2px;
-margin: 0 3px;
-}
-.article .source .source-link {
-text-decoration: none;
-font-size: 18px;
-color: #394e6b;
-}
-.article .text {
-font-size: 18px;
-margin-bottom: 20px;
-line-height: 26px;
-color: #1f2124;
-}
-```
-
-### Managing content errors
-The following method is used in case of any data transfer error:
-```
-- (void)onContentError:(NSError *)error
-```
-
-It has no default action but it could be redefined for custom error handling (hiding controller, notification
-etc.)
-
-## Tracking user content
-
-In order to enable personalization you should call `trackRead:` from `NWSPromoContent` every time a user opens an article within your app. Don't call `trackRead:` when a user opens promo content.
-
-```objective-c
-- (void)trackRead:(NWSContentEvent *)event;
-```
-
-`NWSContentEvent` has the following structure:
-
-```objective-c
-@interface NWSContentEvent : NSObject
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *subtitle;
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, strong) NSString *categoryName;
-@property (nonatomic, strong) NSString *sourceName;
-@property (nonatomic, strong) NSString *authorName;
-@end
-```
-
-All `NWSContentEvent` class fields are optional.
-
+3. You can pass personalized parameters to achieve better targeting of promoted content. Once set these parameters will affect all promoted content requests in the future.
+News360PromoContent.getInstance(this).setCategory(category); // String
+News360PromoContent.getInstance(this).setKeywords(keywords); //  List<String> where each element is a keyword
+News360PromoContent.getInstance(this).setLocation(latitude, longitude); // double
+News360PromoContent.getInstance(this).setGender(Gender.MALE); // Gender which is public enum of News360PromoContent class
+News360PromoContent.getInstance(this).setAge(26); // int 
+4. You can set image preloading which is enabled by default. 
+If preloading is enabled promoted content and images will be loaded before the completion callback.
+If it is disabled, completion callback will happen once the content is loaded and images will begin downloading after that. 
+Use setPreloadImages method to set the preloading:
+News360PromoContent.getInstance(this).setPreloadImages(false); // boolean
+5. SDK has two parameters to control date and time display:
+News360PromoContent.getInstance(this).setRelativeDate(true); // accepts boolean
+Displays date and time in relative format (e.g. "1 hour ago"). If relative date is disabled time is shown using custom date format:
+News360PromoContent.getInstance(this).setDateFormat(new SimpleDateFormat("MMM d, yyyy, h:mm a")); // accepts SimpleDateFormat, defining the datetime format
+Default date format:
+"MMM d, yyyy, h:mm a"
