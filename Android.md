@@ -107,6 +107,7 @@ int headlineCount = News360PromoContent.getInstance(this).getHeadlineCount();
 There's an abstract class to display headlines **News360HeadlineView**
 
 Also, you can use one of the two standard implementations of this class:
+
 1. **News360HeadlineListCell** to display headlines as a list
 2. **News360HeadlineGridCell** to display headlines as a block or square banner
 
