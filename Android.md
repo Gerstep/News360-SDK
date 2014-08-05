@@ -259,21 +259,21 @@ protected TextView source;
 ```
 
 ## News360ImageView
-News360ImageView is used to display headline images properly. All you need to do is to include it into your custom view and link it to the image field. SDK will fill it in with correct image.
+News360ImageView is used to display the headline images properly. All you need to do is to include it into your custom view and link it to the image field. SDK will replace it with the correct image.
 
 NOTE: you can't set width and height as **wrap_content**. Instead you have to set specific size or set it as **match_parent**. 
 
 SDK will load images depending on imageSize parameter. It accepts enum and has 4 possible values:
 
-1. NWSImageSizeSmall - for image size less than 200px
-2. NWSImageSizeMedium - for image size between 200px and 400px
-3. NWSImageSizeLarge - for image size more than 400px
-4. NWSImageSizeOriginal - for original image
+1. **NWSImageSizeSmall** - for image size less than 200px
+2. **NWSImageSizeMedium** - for image size between 200px and 400px
+3. **NWSImageSizeLarge** - for image size more than 400px
+4. **NWSImageSizeOriginal** - for original image
 
-Images will automatically scale depending on real view size ensuring correct displaying.
+Images will automatically scale depending on real view size to ensure correct displaying.
 
 ## Article 
-**News360ContentActivity** is the basic article activity. As an example there's custom implementation News360SimpleActivity, which only include WebView displaying article.
+**News360ContentActivity** is the basic article activity. As an example, there's a custom implementation of News360SimpleActivity, which will only include WebView displaying article.
 
 You need to add this activity to the manifest file of your app:
 
@@ -281,7 +281,7 @@ You need to add this activity to the manifest file of your app:
 <activity android:name="com.news360.promosdk.News360SimpleActivity" />
 ```
 
-After that you need to manage the tap on a headline and launch the activity using intent. You can handle the tap using **OnClickListener**. You must include headline key into new intent using `putKey(Intent intent, Object key)` method:
+After that you need to manage the tap on the headline and launch the activity using intent. You can manage the tap using **OnClickListener**. Make sure to include headline key into new intent using `putKey(Intent intent, Object key)` method:
 
 ```java
 headlineView.setOnClickListener(new OnClickListener() {
@@ -299,7 +299,7 @@ public void onClick(View view){
 
 ### Customizing article style
 
-In order to customize article style you just need to inherit from **News360ContentActivity** class and link webView with required view in **onCreate** method. Also, you can redefine css for the article content by redefining **getStyle()** method and returning your custom style as below:
+In order to customize the article style you just need to inherit from **News360ContentActivity** class and link webView to the required view in **onCreate** method. Also, you can change the CSS for the article content by redefining **getStyle()** method and returning your custom style as shown below:
 
 ```css
 .article * {
@@ -361,7 +361,7 @@ color: #1f2124;
 
 ## Tracking user content
 
-In order to enable personalization you should send the data about non-promo content reads. To do that you should use `trackRead(ContentEvent event)` method that accepts **ContentEvent** parameters.
+In order to enable personalization you should pass the data about non-promo content reads. To do that you should use `trackRead(ContentEvent event)` method that accepts **ContentEvent** parameters.
 
 ```java
 ContentEvent event = new ContentEvent();
