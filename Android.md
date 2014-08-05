@@ -199,3 +199,75 @@ public class YourView extends News360HeadlineView {
    }
 }
 ```
+
+News360HeadlineView class is a FrameLayout which allows you to include any xml layout into it.
+For example, you want to customize headline view so that it contains an image on the left and title on the right. To do that create following xml layout in the headline.xml:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+        
+        <com.news360.promosdk.News360ImageView
+            android:id="@+id/image" 
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+        
+        <TextView 
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:layout_toRightOf="@+id/image"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+        
+    </RelativeLayout>
+    
+</merge>
+```
+
+After creating an xml layout you have to modify bind() method with inflation of your custom view and binding of all custom fields you want to be filled with data. In this case we inflate headline.xml and bind its image to the title fields:
+
+```java
+@Override
+protected void bind() {
+   View.inflate(getContext(), R.layout.headline, this);
+
+   title = (TextView) findViewById(R.id.title);
+   image = (News360ImageView) findViewById(R.id.image);
+}
+```
+
+List of all custom fields:
+
+```java
+protected News360ImageView image;
+protected TextView title;
+protected TextView text;
+protected TextView date;
+protected TextView campaignTitle;
+protected TextView source;
+```
+
+### News360ImageView
+News360ImageView is used to display headline images properly. All you need to do is to include it into your custom view and link it to the image field. SDK will fill it in with correct image.
+
+NOTE: you can't set width and height as **wrap_content**. Instead you have to set specific size or set it as **match_parent**. 
+
+SDK will load images depending on imageSize parameter. It accepts enum and has 4 possible values:
+
+1. NWSImageSizeSmall - for image size less than 200px
+2. NWSImageSizeMedium - for image size between 200px and 400px
+3. NWSImageSizeLarge - for image size more than 400px
+4. NWSImageSizeOriginal - for original image
+
+Images will automatically scale depending on real view size ensuring correct displaying.
