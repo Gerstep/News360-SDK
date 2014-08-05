@@ -247,7 +247,7 @@ protected void bind() {
 }
 ```
 
-List of all custom fields:
+List of the custom fields:
 
 ```java
 protected News360ImageView image;
