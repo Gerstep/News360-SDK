@@ -81,10 +81,41 @@ News360PromoContent.getInstance(this).startSession(new StartSessionCompletion() 
 
 @Override
 public void completed(boolean isTestMode, Exception error){
+
    if(error == null) { // make sure to handle the error
+   
    } else {
+   
    }
+   
 }
 });
 ```
 
+This method accepts **StartSessionCompletion** parameter. It's a public interface that would call completed(boolean isTestMode, Exception error) method once session is started in the UI flow of the app.
+
+Response parameters: 
+1. boolean isTestMode - returns if the SDK is running in production or development mode. It depends on the settings related to your ZoneId. 
+2. Exception error - session start error. If no errors occurred it will return null. 
+
+After successfully starting a session you can get a recommended count of promo articles within this session:
+```java
+int headlineCount = News360PromoContent.getInstance(this).getHeadlineCount();
+```
+
+### Headlines View
+There's an abstract class to display headlines **News360HeadlineView**
+
+Also, you can use one of the two standard implementations of this class:
+1. **News360HeadlineListCell** to display headlines as a list
+2. **News360HeadlineGridCell** to display headlines as a block or square banner
+
+Both of these views can be used in the XML layout or created through java code. We recommend to use them for the next part of this documentation to get an idea how to add promo headlines in your UI. You can also learn how to customize headline view further below.
+
+### Displaying Headlines
+
+There's two ways to load headlines and views:
+
+#### 1. Simple single view
+
+Use this method when you are not using view collections and you need to display a single view containing promo article, like a banner.
