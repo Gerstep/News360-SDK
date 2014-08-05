@@ -71,3 +71,20 @@ Add following uses-permissions to the manifest file:
  
  Default date format:
  "MMM d, yyyy, h:mm a"
+
+### Start Session
+
+New session should be started once the app is launched or when it becomes active (i.e. user press Home button and come back into the app). In order to start new session you should call **startSession** method:
+
+```java
+News360PromoContent.getInstance(this).startSession(new StartSessionCompletion() {
+
+@Override
+public void completed(boolean isTestMode, Exception error){
+   if(error == null) { // make sure to handle the error
+   } else {
+   }
+}
+});
+```
+
