@@ -19,19 +19,18 @@ fs.parentNode.insertBefore(s, fs);
 
 <script>
 window.nws360Init = function () {
-News360.push({
-url: 'http://example.com/',
-containerQuery: '.my-news-container'
-});
+  News360.push({
+    url: 'http://example.com/',
+    containerQuery: '.my-news-container'
+  });
 };
-
+  
 (function (d, e) {
-var s = d.createElement(e);
-s.src = 'http://news360.com/jspromosdk.js'; 
-var fs = d.getElementsByTagName(e)[0];
-fs.parentNode.insertBefore(s, fs);
+  var s = d.createElement(e);
+  s.src = 'http://news360.com/jspromosdk.js'; 
+  var fs = d.getElementsByTagName(e)[0];
+  fs.parentNode.insertBefore(s, fs);
 })(document, 'script');
-
 </script>
 
 
