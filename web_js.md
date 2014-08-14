@@ -1,7 +1,7 @@
 News360-SDK
 ===========
 
-```javascript
+```js
 <script>
 
 window.nws360Init = function () {
